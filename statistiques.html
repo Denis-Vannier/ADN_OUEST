@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/stats.css">
+<script src="assets/js/jquery-1.11.2.min.js"></script>
+<script src="assets/js/Chart.js"></script>
+<body>
+    <h1>Statistiques</h1>
+
+    <div class="bloc">
+        <header>
+            <div class="asw_title">
+                <i style="display: inline-block; color: #4d6a74; margin-right: 5px" class="fa fa-tags" aria-hidden="true"></i><h2 style="display: inline-block">Compteur des Catégories séléctionnées</h2>
+            </div>
+        </header>
+        <canvas id="categoriesCount"></canvas>
+    </div>
+
+    <div class="bloc">
+        <header>
+            <div class="asw_title">
+                <i style="display: inline-block; color: #4d6a74; margin-right: 5px" class="fa fa-map-marker" aria-hidden="true"></i><h2 style="display: inline-block">Géolocalisation</h2>
+            </div>
+        </header>
+        <canvas id="user"></canvas>
+    </div>
+
+
+
+
+
+
+
+    <script>
+        var categories = {
+            1 : 0,
+            2 : 0,
+            3 : 0,
+            4 : 0,
+            5: 0,
+            6: 0,
+            7: 0,
+            8: 0,
+            9: 0,
+            10: 0
+        };
+
+
+        $.getJSON('cat.json', function(data) {
+
+            /**
+             * PArse file json categories selected
+             */
+            $.each(data.items,function(i, item){
+                index = item.id;
+                categories[index] = categories[index] + 1;
+            });
+
+
+            /**
+             * Format ChartJS
+             * @type {*}
+             */
+            var ctx = document.getElementById("categoriesCount").getContext('2d');
+
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        "categorie 1 :" + " " + categories[1] + " séléctions",
+                        "categorie 2 :" + " " + categories[2] + " séléctions",
+                        "categorie 3 :" + " " + categories[3] + " séléctions",
+                        "categorie 4 :" + " " + categories[4] + " séléctions",
+                        "categorie 5 :" + " " + categories[5] + " séléctions",
+                        "categorie 6 :" + " " + categories[6] + " séléctions",
+                        "categorie 7 :" + " " + categories[7] + " séléctions",
+                        "categorie 8 :" + " " + categories[8] + " séléctions",
+                        "categorie 9 :" + " " + categories[9] + " séléctions",
+                        "categorie 10 :" + " " + categories[10] + " séléctions"
+                    ],
+                    datasets: [{
+                        defaultFontColor: '#FFFF00',
+                        backgroundColor: [
+                            "#2ecc71",
+                            "#3498db",
+                            "#95a5a6",
+                            "#9b59b6",
+                            "#f1c40f",
+                            "#e74c3c",
+                            "#34495e",
+                            "#34fff5",
+                            "#82ff2d",
+                            "#6c77ff"
+                        ],
+
+                        data: [
+                            categories[1],
+                            categories[2],
+                            categories[3],
+                            categories[4],
+                            categories[5],
+                            categories[6],
+                            categories[7],
+                            categories[8],
+                            categories[9],
+                            categories[10]
+                        ],
+                        options: {
+                            animation:{
+                                animateScale:true
+                            }
+                        }
+
+                    }]
+                }
+            });
+
+        });
+    </script>
+         
+</body>
+</html>
